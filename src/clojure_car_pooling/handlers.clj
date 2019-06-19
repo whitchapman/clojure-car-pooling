@@ -11,8 +11,15 @@
   (println "Querying link> " link)
   (let [text (:body (http/get link {:throw-exceptions false}))]
     (reduce (fn [data key] (assoc data key (regex/lookup-field text key)))
-            (add-additional-fields-for-list data)
-            [:seats :name :phone :mobile :email :non-smoke-car])))
+            data [:seats :name :phone :mobile :email :non-smoke-car])))
+
+(defn lookup-by-id [results id]
+  (loop [results results]
+    (when-let [[data & results] (seq results)]
+      (let [data-with-id (add-additional-fields-for-list data)]
+        (if (= id (:id data-with-id))
+          data-with-id
+          (recur results))))))
 
 (defn list-drivers [_]
   (try
@@ -30,18 +37,21 @@
       (pprint "EXN>" exn)
       (throw exn))))
 
-(defn get-drivers [id]
+(defn get-driver [{:keys [path-params]}]
   (try
-    (println "ID> " id)
-    (let [raw (http/get "https://apis.is/rides/samferda-drivers/"
+    (let [id (:id path-params)
+          raw (http/get "https://apis.is/rides/samferda-drivers/"
                         {:throw-exceptions false :as :json})]
 
       (println "# of Drivers> " (count (:results (:body raw))))
 
-      (let [first-result (first (:results (:body raw)))]
+      (if-let [data (lookup-by-id (:results (:body raw)) id)]
+
         {:status 200
          ;;:headers {"Content-Type" "application/json;charset=UTF-8"}
-         :body (add-additional-fields-for-get first-result)}))
+         :body (add-additional-fields-for-get data)}
+
+        {:status 404}))
 
     (catch Exception exn
       (pprint "EXN>" exn)
@@ -63,18 +73,21 @@
       (pprint "EXN>" exn)
       (throw exn))))
 
-(defn get-passenger [id]
+(defn get-passenger [{:keys [path-params]}]
   (try
-    (println "ID> " id)
-    (let [raw (http/get "https://apis.is/rides/samferda-passengers/"
+    (let [id (:id path-params)
+          raw (http/get "https://apis.is/rides/samferda-passengers/"
                         {:throw-exceptions false :as :json})]
 
       (println "# of Passengers> " (count (:results (:body raw))))
 
-      (let [first-result (first (:results (:body raw)))]
+      (if-let [data (lookup-by-id (:results (:body raw)) id)]
+
         {:status 200
          ;;:headers {"Content-Type" "application/json;charset=UTF-8"}
-         :body (add-additional-fields-for-get first-result)}))
+         :body (add-additional-fields-for-get data)}
+
+        {:status 404}))
 
     (catch Exception exn
       (pprint "EXN>" exn)

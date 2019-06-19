@@ -35,7 +35,7 @@
 
         ["/samferda-drivers/:id"
          {:get {:summary "get driver"
-                :handler handlers/get-drivers}}]
+                :handler handlers/get-driver}}]
 
         ["/samferda-passengers/"
          {:get {:summary "list passengers"
