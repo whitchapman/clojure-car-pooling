@@ -1,12 +1,13 @@
 (ns clojure-car-pooling.handlers
   (:require [clojure.pprint :refer [pprint]]
+            [clojure-car-pooling.regex :as regex]
             [clj-http.client :as http]))
 
 (defn- add-additional-fields [{:keys [link] :as data}]
   (println "Querying link> " link)
-  (let [raw (http/get link {:throw-exceptions false})]
-    ;;(println raw)
-    data))
+  (let [text (:body (http/get link {:throw-exceptions false}))]
+    (reduce (fn [data key] (assoc data key (regex/lookup-field text key)))
+            data [:seats :name :phone :mobile :email :non-smoke-car])))
 
 (defn drivers-handler [_]
   (try
