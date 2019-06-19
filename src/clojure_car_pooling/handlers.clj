@@ -43,7 +43,7 @@
           raw (http/get "https://apis.is/rides/samferda-drivers/"
                         {:throw-exceptions false :as :json})]
 
-      (println "# of Drivers> " (count (:results (:body raw))))
+      (println "Driver ID> " id)
 
       (if-let [data (lookup-by-id (:results (:body raw)) id)]
 
@@ -79,7 +79,7 @@
           raw (http/get "https://apis.is/rides/samferda-passengers/"
                         {:throw-exceptions false :as :json})]
 
-      (println "# of Passengers> " (count (:results (:body raw))))
+      (println "Passenger ID> " id)
 
       (if-let [data (lookup-by-id (:results (:body raw)) id)]
 

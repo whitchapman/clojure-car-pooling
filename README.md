@@ -1,37 +1,41 @@
 # clojure-car-pooling
 extends an Icelandic car pooling API
 
-FIXME: description
-
 ## Installation
 
-Download from http://example.com/FIXME.
+clone this repository
 
 ## Usage
 
-FIXME: explanation
+start a repl:
 
-    $ java -jar clojure-car-pooling-0.1.0-standalone.jar [args]
+    $ lein repl
 
-## Options
+change to the core namespace (if necessary):
 
-FIXME: listing of options this app accepts.
+    > (ns clojure-car-pooling.core)
 
-## Examples
+start the web server:
 
-...
+    > (start)
 
-### Bugs
+either browse to localhost port 4040:
 
-...
+    http://localhost:4040/
 
-### Any Other Sections
-### That You Think
-### Might be Useful
+or use curl to query a list of drivers or passengers:
+
+    $ curl -vX GET --header 'Accept: application/json' 'http://localhost:4040/rides/samferda-drivers/'
+    $ curl -vX GET --header 'Accept: application/json' 'http://localhost:4040/rides/samferda-passengers/'
+
+once you have a driver or passenger id, query for an individual extended set of data:
+
+    $ curl -vX GET --header 'Accept: application/json' 'http://localhost:4040/rides/samferda-drivers/1041814'
+    $ curl -vX GET --header 'Accept: application/json' 'http://localhost:4040/rides/samferda-passengers/1003583'
 
 ## License
 
-Copyright © 2019 FIXME
+Copyright © 2019 Whit Chapman
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
