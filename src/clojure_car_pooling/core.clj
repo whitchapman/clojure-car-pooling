@@ -1,5 +1,6 @@
 (ns clojure-car-pooling.core
   (:require [clojure.pprint :refer [pprint]]
+            [clojure-car-pooling.handlers :as handlers]
             [reitit.ring :as ring]
             [reitit.coercion.spec]
             [reitit.swagger :as swagger]
@@ -30,16 +31,11 @@
 
         ["/samferda-drivers/"
          {:get {:summary "gets list of drivers"
-                :handler (fn [_]
-                           {:status 200
-                            ;;:headers {"Content-Type" "application/json;charset=UTF-8"}
-                            :body {:message "list of drivers"}})}}]
+                :handler handlers/drivers-handler}}]
+
         ["/samferda-passengers/"
          {:get {:summary "gets list of passengers"
-                :handler (fn [_]
-                           {:status 200
-                            ;;:headers {"Content-Type" "application/json;charset=UTF-8"}
-                            :body {:message "list of passengers"}})}}]]]
+                :handler handlers/passengers-handler}}]]]
 
       {;;:reitit.middleware/transform dev/print-request-diffs ;; pretty diffs
        ;;:validate spec/validate ;; enable spec validation for route data
