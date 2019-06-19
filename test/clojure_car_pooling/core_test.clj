@@ -2,6 +2,22 @@
   (:require [clojure.test :refer :all]
             [clojure-car-pooling.core :refer :all]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(deftest routing-tests
+  (testing "redirect"
+    (is (= (app {:request-method :get :uri "/"})
+           {:status 302
+            :headers {"Location" "/index.html"}
+            :body ""})))
+
+  (testing "not found"
+    (is (= (app {:request-method :get :uri "/rides"})
+           {:status 404
+            :body ""
+            :headers {}})))
+
+  (testing "valid routes"
+    (let [resp (app {:request-method :get :uri "/rides/samferda-drivers/"})]
+      (is (= 200 (:status resp))))
+
+    (let [resp (app {:request-method :get :uri "/rides/samferda-passengers/"})]
+      (is (= 200 (:status resp))))))
