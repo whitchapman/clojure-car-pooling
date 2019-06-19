@@ -30,12 +30,20 @@
         {:swagger {:tags ["rides"]}}
 
         ["/samferda-drivers/"
-         {:get {:summary "list drivers with ids"
+         {:get {:summary "list drivers"
                 :handler handlers/list-drivers}}]
 
+        ["/samferda-drivers/:id"
+         {:get {:summary "get driver"
+                :handler handlers/get-drivers}}]
+
         ["/samferda-passengers/"
-         {:get {:summary "list passengers with ids"
-                :handler handlers/list-passengers}}]]]
+         {:get {:summary "list passengers"
+                :handler handlers/list-passengers}}]
+
+        ["/samferda-passengers/:id"
+         {:get {:summary "get passenger"
+                :handler handlers/get-passenger}}]]]
 
       {;;:reitit.middleware/transform dev/print-request-diffs ;; pretty diffs
        ;;:validate spec/validate ;; enable spec validation for route data
