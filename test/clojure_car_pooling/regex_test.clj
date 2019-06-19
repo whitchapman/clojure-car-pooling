@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]
             [clojure-car-pooling.regex :refer :all]))
 
-(deftest regex-tests
+(deftest field-tests
   (let [text "<tr>
 <td align=\"right\"><b>Seats:</b></td>
 <td>1</td>
@@ -46,4 +46,11 @@ r>
       (is (= "giovannitorre.89@gmail.com" (lookup-field text :email))))
 
     (testing "Non-smoke car"
-      (is (= "yes" (lookup-field text :non-smoke))))))
+      (is (= "yes" (lookup-field text :non-smoke-car))))))
+
+(deftest id-tests
+    (testing "successful test"
+      (is (= "103630" (lookup-id "http://www.samferda.net/en/detail/103630"))))
+
+    (testing "unsuccessful test"
+      (is (= nil (lookup-id "http://www.samferda.net/en/detail/")))))

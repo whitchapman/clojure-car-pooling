@@ -15,7 +15,9 @@
             :body ""
             :headers {}})))
 
-  (testing "valid routes"
+  ;;these tests have external dependencies that make them impractical for
+  ;;TODO: provide overrides for http calls so can test return values
+  #_(testing "valid routes"
     (let [resp (app {:request-method :get :uri "/rides/samferda-drivers/"})]
       (is (= 200 (:status resp))))
 

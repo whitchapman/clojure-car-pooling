@@ -10,3 +10,6 @@
 
 (defn lookup-field [text field]
   (second (re-find (get regex-map field) text)))
+
+(defn lookup-id [link]
+  (second (re-find #"/(\d+)$" link)))
