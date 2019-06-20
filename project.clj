@@ -6,6 +6,8 @@
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [cheshire "5.8.1"]
                  [clj-http "3.10.0"]
+                 [com.cemerick/url "0.1.1"]
+                 [environ "1.1.0"]
                  [metosin/reitit "0.3.7"]
                  [ring/ring-jetty-adapter "1.7.1"]]
   :main ^:skip-aot clojure-car-pooling.core
